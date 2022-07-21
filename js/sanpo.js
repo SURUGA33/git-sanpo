@@ -1,6 +1,6 @@
 function initAutocomplete() {
   const map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 36.643313647309895, lng: 138.188606153392 },
+    center: { lat: 34.95483280899109, lng: 137.17304429898508 },
     zoom: 13,
     mapTypeId: "roadmap",
     styles: [{
@@ -15,6 +15,9 @@ function initAutocomplete() {
            gamma: 0.5 
        }]
    }]
+
+
+   
   });
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
@@ -71,6 +74,15 @@ function initAutocomplete() {
     });
     map.fitBounds(bounds);
   });
+
+
+  google.maps.event.addListener(map, 'click', event => clickListener(event, map));    /*clickListenerへ*/
+
+  infoWindow = new google.maps.InfoWindow({ // 吹き出しの追加
+    content: '<div class="sample">TAM 大阪</div>' // 吹き出しに表示する内容
+});
+
+
 }
 
 // This example adds a marker to indicate the position of Bondi Beach in Sydney,
@@ -110,4 +122,22 @@ function createMarker(id, name, lat, lng) {
   });
  
   return marker;
+}
+
+
+
+
+/*ピンを立てる*/
+
+function clickListener(event, map) {
+  const lat = event.latLng.lat();
+  const lng = event.latLng.lng();
+  const marker = new google.maps.Marker({
+    position: {lat, lng},
+    map
+  });
+
+  infoWindow.open(map, marker);
+
+  window.location.href = 'input.html';    /*ピンを立てたらinput.htmlへとぶ*/
 }
